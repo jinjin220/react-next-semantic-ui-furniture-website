@@ -1,7 +1,7 @@
 {
-  "name": "react-reserve",
+  "name": "muebler",
   "version": "1.0.0",
-  "description": "Project for MERN Stack - The Complete Guide",
+  "description": "Furniture Website - MERN Stack based",
   "main": "index.js",
   "scripts": {
     "dev": "next",
