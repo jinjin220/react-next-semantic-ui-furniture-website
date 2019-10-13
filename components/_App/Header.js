@@ -1,25 +1,31 @@
 import { Menu, Container, Image, Icon } from "semantic-ui-react";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import Router, { useRouter } from "next/router";
+import NProgress from "nprogress";
+
+Router.onRouteChangeStart = () => NProgress.start();
+Router.onRouteChangeComplete = () => NProgress.done();
+Router.onRouteChangeError = () => NProgress.done();
 
 function Header() {
   const router = useRouter();
-  console.log(router)
   const user = false;
 
-  const isActive = (route) => {
+  const isActive = route => {
     return router.pathname === route;
-  }
+  };
 
   return (
     <Menu fluid id="menu" inverted centered>
       <Container text>
         <Link href="/">
-          <Menu.Item header active={isActive("/")}>MUEBLER</Menu.Item>
+          <Menu.Item header active={isActive("/")}>
+            MUEBLER
+          </Menu.Item>
         </Link>
 
         <Link href="/cart">
-          <Menu.Item header active={isActive("/cart")}>
+          <Menu.Item header active={isActive("/cart")} position="right">
             <Icon name="cart" size="large" />
             Cart
           </Menu.Item>
