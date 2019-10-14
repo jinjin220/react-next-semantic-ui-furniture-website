@@ -6,7 +6,13 @@ function ProductSummary({ name, mediaUrl, _id, price, sku }) {
     <Item.Group>
       <Item>
         <Item.Image size="medium" src={mediaUrl} />
-        <Item.Content>
+        <Item.Content
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center"
+          }}
+        >
           <Item.Header>{name}</Item.Header>
           <Item.Description>
             <p>${price}</p>
