@@ -9,6 +9,8 @@ import {
   Image,
   Message
 } from "semantic-ui-react";
+import axios from "axios";
+import baseUrl from "../utils/baseUrl";
 
 const INITIAL_PRODUCT = {
   name: "",
@@ -21,6 +23,7 @@ function CreateProduct() {
   const [product, setProduct] = useState(INITIAL_PRODUCT);
   const [mediaPreview, setMediaPreview] = useState();
   const [message, setMessage] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const { name, price, description } = product;
 
@@ -41,9 +44,28 @@ function CreateProduct() {
     }
   };
 
-  const handleSubmit = event => {
+  const handleImageUpload = async () => {
+    const data = new FormData();
+    data.append("file", product.media);
+    data.append("upload_preset", "muebler");
+    data.append("cloud_name", "alexticovschi");
+    const response = await axios.post(process.env.CLOUDINARY_URL, data);
+    const mediaUrl = response.data.url;
+    return mediaUrl;
+  };
+
+  const handleSubmit = async event => {
     event.preventDefault();
-    console.log(product);
+    setLoading(true);
+
+    const mediaUrl = await handleImageUpload();
+    const url = `${baseUrl}/api/product`;
+    const { name, price, description } = product;
+    const payload = { name, price, description, mediaUrl };
+    const response = await axios.post(url, payload);
+    console.log({ response });
+
+    setLoading(false);
     setProduct(INITIAL_PRODUCT);
     setMessage(true);
     setTimeout(() => setMessage(false), 3000);
@@ -55,7 +77,7 @@ function CreateProduct() {
         <Icon name="add" color="orange" />
         Create New Product
       </Header>
-      <Form success={message} onSubmit={handleSubmit}>
+      <Form loading={loading} success={message} onSubmit={handleSubmit}>
         <Message
           success
           icon="check"
@@ -92,7 +114,7 @@ function CreateProduct() {
             onChange={handleChange}
           />
         </Form.Group>
-        <Image src={mediaPreview} rouded centered size="medium" />
+        <Image src={mediaPreview} rounded centered size="medium" />
         <Form.Field
           control={TextArea}
           name="description"
@@ -103,6 +125,7 @@ function CreateProduct() {
         />
         <Form.Field
           control={Button}
+          disabled={loading}
           color="blue"
           icon="pencil alternate"
           content="Submit"
