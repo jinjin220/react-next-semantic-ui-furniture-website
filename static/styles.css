@@ -1,7 +1,7 @@
 :root {
   --bodyBg: #f0f4f8;
-  --menuBg: #0bb3aa;
-  --progressBar: #b4fffb;
+  --menuBg: #000000;
+  --progressBar: #e3fffe;
 }
 
 body {
@@ -9,7 +9,7 @@ body {
 }
 
 #menu {
-  background: var(--menuBg);
+  /* background: var(--menuBg); */
 }
 
 /* Overrides default styled accordion styles (too much bottom padding) */

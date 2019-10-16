@@ -9,7 +9,7 @@ Router.onRouteChangeError = () => NProgress.done();
 
 function Header() {
   const router = useRouter();
-  const user = true;
+  const user = false;
 
   const isActive = route => {
     return router.pathname === route;
@@ -26,7 +26,7 @@ function Header() {
 
         <Link href="/cart">
           <Menu.Item header active={isActive("/cart")} position="right">
-            <Icon name="cart" size="large" />
+            <Icon name="cart" size="medium" />
             Cart
           </Menu.Item>
         </Link>
@@ -34,7 +34,7 @@ function Header() {
         {user && (
           <Link href="/create">
             <Menu.Item header active={isActive("/create")}>
-              <Icon name="add square" size="large" />
+              <Icon name="add square" size="medium" />
               Create
             </Menu.Item>
           </Link>
@@ -44,28 +44,28 @@ function Header() {
           <>
             <Link href="/account">
               <Menu.Item header active={isActive("/account")}>
-                <Icon name="user" size="large" />
+                <Icon name="user" size="medium" />
                 Account
               </Menu.Item>
             </Link>
 
             <Menu.Item header>
-              <Icon name="sign out" size="large" />
+              <Icon name="sign out" size="medium" />
               Logout
             </Menu.Item>
           </>
         ) : (
           <>
             <Link href="/login">
-              <Menu.Item header active={isActive("/login")}>
-                <Icon name="sign in" size="large" />
+              <Menu.Item basic header active={isActive("/login")}>
+                <Icon name="sign in" size="medium" />
                 Login
               </Menu.Item>
             </Link>
 
             <Link href="/signup">
               <Menu.Item header active={isActive("/signup")}>
-                <Icon name="signup" size="large" />
+                <Icon name="signup" size="medium" />
                 Signup
               </Menu.Item>
             </Link>
