@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Header,
   Icon,
@@ -24,6 +24,12 @@ function CreateProduct() {
   const [mediaPreview, setMediaPreview] = useState();
   const [message, setMessage] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [disabled, setDisabled] = useState(true);
+
+  useEffect(() => {
+    const isProduct = Object.values(product).every(el => Boolean(el));
+    isProduct ? setDisabled(false) : setDisabled(true);
+  }, [product]);
 
   const { name, price, description } = product;
 
@@ -125,7 +131,7 @@ function CreateProduct() {
         />
         <Form.Field
           control={Button}
-          disabled={loading}
+          disabled={disabled || loading}
           color="blue"
           icon="pencil alternate"
           content="Submit"
