@@ -8,8 +8,10 @@ import {
   Message,
   Segment
 } from "semantic-ui-react";
-
+import axios from "axios";
 import catchErrors from "../utils/catchErrors";
+import baseUrl from "../utils/baseUrl";
+import handleLogin from "../utils/auth";
 
 const INITIAL_STATE = {
   name: "",
@@ -42,8 +44,12 @@ const Signup = () => {
     try {
       setLoading(true);
       setError("");
-      console.log(user);
+
       // Make request to signup user
+      const url = `${baseUrl}/api/signup`;
+      const payload = { ...user };
+      const response = await axios.post(url, payload);
+      handleLogin(response.data);
     } catch (error) {
       catchErrors(error, setError);
     } finally {
