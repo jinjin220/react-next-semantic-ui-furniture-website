@@ -8,8 +8,10 @@ import {
   Message,
   Segment
 } from "semantic-ui-react";
-
 import catchErrors from "../utils/catchErrors";
+import handleLogin from "../utils/auth";
+import axios from "axios";
+import baseUrl from "../utils/baseUrl";
 
 const INITIAL_STATE = {
   email: "",
@@ -41,8 +43,14 @@ const Login = () => {
     try {
       setLoading(true);
       setError("");
-      console.log(user);
-      // Make request to signup user
+
+      // Make request to login user
+      const url = `${baseUrl}/api/login`;
+      const payload = {
+        ...user
+      };
+      const response = await axios.post(url, payload);
+      handleLogin(response.data);
     } catch (error) {
       catchErrors(error, setError);
     } finally {
@@ -51,16 +59,25 @@ const Login = () => {
   };
 
   return (
-    <Grid textAlign="center" style={{ height: "70vh" }} verticalAlign="middle">
-      <Grid.Column style={{ maxWidth: 650 }}>
+    <Grid
+      textAlign="center"
+      style={{
+        height: "70vh"
+      }}
+      verticalAlign="middle"
+    >
+      <Grid.Column
+        style={{
+          maxWidth: 650
+        }}
+      >
         <Message header="Get Started!">
           <Header as="h2" color="teal">
             Login to your account
           </Header>
         </Message>
-
         <Form error={Boolean(error)} loading={loading} onSubmit={handleSubmit}>
-          <Message error header="Something went wrong!" content={error} />
+          <Message error header="Oops!" content={error} />
           <Segment>
             <Form.Input
               fluid
@@ -93,9 +110,8 @@ const Login = () => {
             </Button>
           </Segment>
         </Form>
-
         <Message textAlign="center">
-          New to us? <Link href="/signup">Sign Up</Link>
+          New to us ? <Link href="/signup"> Sign Up </Link>
         </Message>
       </Grid.Column>
     </Grid>
