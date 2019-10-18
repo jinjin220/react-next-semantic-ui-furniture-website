@@ -9,7 +9,7 @@ import {
   Segment
 } from "semantic-ui-react";
 import catchErrors from "../utils/catchErrors";
-import handleLogin from "../utils/auth";
+import { handleLogin } from "../utils/auth";
 import axios from "axios";
 import baseUrl from "../utils/baseUrl";
 

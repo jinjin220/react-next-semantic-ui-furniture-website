@@ -7,9 +7,9 @@ Router.onRouteChangeStart = () => NProgress.start();
 Router.onRouteChangeComplete = () => NProgress.done();
 Router.onRouteChangeError = () => NProgress.done();
 
-function Header() {
+const Header = ({ user }) => {
+  console.log(user);
   const router = useRouter();
-  const user = false;
 
   const isActive = route => {
     return router.pathname === route;
@@ -26,7 +26,7 @@ function Header() {
 
         <Link href="/cart">
           <Menu.Item header active={isActive("/cart")} position="right">
-            <Icon name="cart" size="medium" />
+            <Icon name="cart" size="small" />
             Cart
           </Menu.Item>
         </Link>
@@ -34,7 +34,7 @@ function Header() {
         {user && (
           <Link href="/create">
             <Menu.Item header active={isActive("/create")}>
-              <Icon name="add square" size="medium" />
+              <Icon name="add square" size="small" />
               Create
             </Menu.Item>
           </Link>
@@ -44,13 +44,13 @@ function Header() {
           <>
             <Link href="/account">
               <Menu.Item header active={isActive("/account")}>
-                <Icon name="user" size="medium" />
+                <Icon name="user" size="small" />
                 Account
               </Menu.Item>
             </Link>
 
             <Menu.Item header>
-              <Icon name="sign out" size="medium" />
+              <Icon name="sign out" size="small" />
               Logout
             </Menu.Item>
           </>
@@ -58,14 +58,14 @@ function Header() {
           <>
             <Link href="/login">
               <Menu.Item basic header active={isActive("/login")}>
-                <Icon name="sign in" size="medium" />
+                <Icon name="sign in" size="small" />
                 Login
               </Menu.Item>
             </Link>
 
             <Link href="/signup">
               <Menu.Item header active={isActive("/signup")}>
-                <Icon name="signup" size="medium" />
+                <Icon name="signup" size="small" />
                 Signup
               </Menu.Item>
             </Link>
@@ -74,6 +74,6 @@ function Header() {
       </Container>
     </Menu>
   );
-}
+};
 
 export default Header;

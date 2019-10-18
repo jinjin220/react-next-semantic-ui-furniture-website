@@ -11,7 +11,7 @@ import {
 import axios from "axios";
 import catchErrors from "../utils/catchErrors";
 import baseUrl from "../utils/baseUrl";
-import handleLogin from "../utils/auth";
+import { handleLogin } from "../utils/auth";
 
 const INITIAL_STATE = {
   name: "",
