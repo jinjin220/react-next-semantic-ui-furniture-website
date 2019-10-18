@@ -19,5 +19,6 @@ export function redirectUser(ctx, location) {
 // logout user
 export function handleLogout() {
   cookie.remove("token");
+  window.localStorage.setItem("logout", Date.now());
   Router.push("/login");
 }
