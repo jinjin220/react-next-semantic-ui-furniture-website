@@ -21,8 +21,8 @@ const Header = ({ user }) => {
   };
 
   return (
-    <Menu stackable fluid id="menu" inverted>
-      <Container text>
+    <Menu stackable fluid fixed="top" id="menu" inverted>
+      <Container>
         <Link href="/">
           <Menu.Item header active={isActive("/")}>
             MUEBLER

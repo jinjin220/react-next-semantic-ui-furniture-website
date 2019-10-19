@@ -19,9 +19,7 @@ const Layout = ({ children, user }) => {
         <title>Muebler</title>
       </Head>
       <Header user={user} />
-      <Container text style={{ paddingTop: "1em" }}>
-        {children}
-      </Container>
+      <Container style={{ paddingTop: "6em" }}>{children}</Container>
     </>
   );
 };

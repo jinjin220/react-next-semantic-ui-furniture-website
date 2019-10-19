@@ -5,12 +5,13 @@ function ProductSummary({ name, mediaUrl, _id, price, sku }) {
   return (
     <Item.Group>
       <Item>
-        <Item.Image size="medium" src={mediaUrl} />
+        <Item.Image size="large" src={mediaUrl} />
         <Item.Content
           style={{
             display: "flex",
             flexDirection: "column",
-            justifyContent: "center"
+            justifyContent: "center",
+            paddingLeft: "80px"
           }}
         >
           <Item.Header>{name}</Item.Header>

@@ -17,3 +17,7 @@ body {
   margin: 0;
   padding: 0.5em 1em 0.75em !important;
 }
+
+.ui.container {
+  width: 1000px;
+}
