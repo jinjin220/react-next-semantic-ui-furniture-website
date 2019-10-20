@@ -71,7 +71,7 @@ const Login = () => {
           maxWidth: 650
         }}
       >
-        <Message header="Get Started!">
+        <Message>
           <Header as="h2" color="teal">
             Login to your account
           </Header>
