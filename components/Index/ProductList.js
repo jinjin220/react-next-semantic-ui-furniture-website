@@ -1,6 +1,4 @@
-import {
-  Card
-} from "semantic-ui-react";
+import { Card } from "semantic-ui-react";
 
 const mapProductsToItems = products => {
   return products.map(product => ({
@@ -14,14 +12,13 @@ const mapProductsToItems = products => {
   }));
 };
 
-function ProductList({
-  products
-}) {
-  return ( <
-    Card.Group stackable itemsPerRow = "4"
-    centered items = {
-      mapProductsToItems(products)
-    }
+function ProductList({ products }) {
+  return (
+    <Card.Group
+      stackable
+      itemsPerRow="4"
+      centered
+      items={mapProductsToItems(products)}
     />
   );
 }
