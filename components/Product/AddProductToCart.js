@@ -1,13 +1,26 @@
-import { useState, useEffect } from "react";
-import { useRouter } from "next/router";
-import { Input, Modal, ModalHeader, Button } from "semantic-ui-react";
+import {
+  useState,
+  useEffect
+} from "react";
+import {
+  useRouter
+} from "next/router";
+import {
+  Input,
+  Modal,
+  ModalHeader,
+  Button
+} from "semantic-ui-react";
 
 import axios from "axios";
 import baseUrl from "../../utils/baseUrl";
 import catchErrors from "../../utils/catchErrors";
 import cookie from "js-cookie";
 
-const AddProductToCart = ({ user, productId }) => {
+const AddProductToCart = ({
+  user,
+  productId
+}) => {
   const [quantity, setQuantity] = useState(1);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -29,9 +42,16 @@ const AddProductToCart = ({ user, productId }) => {
       setLoading(true);
 
       const url = `${baseUrl}/api/cart`;
-      const payload = { quantity, productId };
+      const payload = {
+        quantity,
+        productId
+      };
       const token = cookie.get("token");
-      const headers = { headers: { Authorization: "token" } };
+      const headers = {
+        headers: {
+          Authorization: token
+        }
+      };
 
       await axios.put(url, payload, headers);
       setSuccess(true);
@@ -44,49 +64,64 @@ const AddProductToCart = ({ user, productId }) => {
     }
   };
 
-  return (
-    <>
-      <Input
-        type="number"
-        min="1"
-        value={quantity}
-        onChange={event => setQuantity(Number(event.target.value))}
-        placeholder="Quantity"
-        action={
-          user && success
-            ? {
-                color: "blue",
-                content: "Product Added!",
-                icon: "plus cart",
-                disabled: true
-              }
-            : user
-            ? {
-                color: "orange",
-                content: "Add to Cart",
-                icon: "plus cart",
-                loading,
-                disabled: loading,
-                onClick: handleAddProductToCart
-              }
-            : {
-                color: "blue",
-                content: "Login to Add Items",
-                icon: "plus cart",
-                onClick: () => router.push("/login")
-              }
+  return ( <
+    >
+    <
+    Input type = "number"
+    min = "1"
+    value = {
+      quantity
+    }
+    onChange = {
+      event => setQuantity(Number(event.target.value))
+    }
+    placeholder = "Quantity"
+    action = {
+      user && success ?
+      {
+        color: "blue",
+        content: "Product Added!",
+        icon: "plus cart",
+        disabled: true
+      } :
+        user ?
+        {
+          color: "orange",
+          content: "Add to Cart",
+          icon: "plus cart",
+          loading,
+          disabled: loading,
+          onClick: handleAddProductToCart
+        } :
+        {
+          color: "blue",
+          content: "Login to Add Items",
+          icon: "plus cart",
+          onClick: () => router.push("/login")
         }
-      />
-      <Modal open={modal} dimmer="inverted">
-        <ModalHeader>Something went wrong!</ModalHeader>
-        <Modal.Content>
-          <h4>Please login again</h4>
-        </Modal.Content>
-        <Modal.Actions>
-          <Button color="blue" onClick={() => setModal(false)} content="OK" />
-        </Modal.Actions>
-      </Modal>
-    </>
+    }
+    /> <
+    Modal open = {
+      modal
+    }
+    dimmer = "inverted" >
+    <
+    ModalHeader > Something went wrong! < /ModalHeader> <
+    Modal.Content >
+    <
+    h4 > Please login again < /h4> <
+    /Modal.Content> <
+    Modal.Actions >
+    <
+    Button color = "blue"
+    onClick = {
+      () => setModal(false)
+    }
+    content = "OK" / >
+    <
+    /Modal.Actions> <
+    /Modal> <
+    />
   );
 };
 
