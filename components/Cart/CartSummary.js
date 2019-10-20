@@ -1,12 +1,25 @@
+import { useState, useEffect } from "react";
 import { Divider, Segment, Button } from "semantic-ui-react";
 
-const CartSummary = () => {
+const CartSummary = ({ products }) => {
+  const [isCartEmpty, setCartEmpty] = useState(false);
+
+  useEffect(() => {
+    setCartEmpty(products.length === 0);
+  }, [products]);
+
   return (
     <>
       <Divider />
       <Segment clearing size="large">
         <strong>Subtotal:</strong> $0.00
-        <Button icon="cart" color="black" floated="right" content="Checkout" />
+        <Button
+          disabled={isCartEmpty}
+          icon="cart"
+          color="black"
+          floated="right"
+          content="Checkout"
+        />
       </Segment>
     </>
   );
