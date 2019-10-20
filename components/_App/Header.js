@@ -62,7 +62,7 @@ const Header = ({ user }) => {
         ) : (
           <>
             <Link href="/login">
-              <Menu.Item basic header active={isActive("/login")}>
+              <Menu.Item basic="true" header active={isActive("/login")}>
                 <Icon name="sign in" size="small" />
                 Login
               </Menu.Item>
