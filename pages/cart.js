@@ -52,7 +52,7 @@ const Cart = ({ products, user }) => {
         success={success}
       />
       <CartSummary
-        handleCheckOut={handleCheckout}
+        handleCheckout={handleCheckout}
         products={cartProducts}
         success={success}
       />
