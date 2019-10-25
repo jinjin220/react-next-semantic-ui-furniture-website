@@ -8,7 +8,12 @@ import cookie from "js-cookie";
 const AccountPermissions = () => {
   const [users, setUsers] = useState([]);
 
-  useEffect(() => getUsers(), []);
+  useEffect(() => {
+    async function fetchData() {
+      await getUsers();
+    }
+    fetchData();
+  }, []);
 
   async function getUsers() {
     const url = `${baseUrl}/api/users`;
