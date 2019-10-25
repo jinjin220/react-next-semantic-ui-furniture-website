@@ -1,4 +1,7 @@
-import { useState, useEffect } from "react";
+import {
+  useState,
+  useEffect
+} from "react";
 import {
   Header,
   Icon,
@@ -33,10 +36,18 @@ function CreateProduct() {
     isProduct ? setDisabled(false) : setDisabled(true);
   }, [product]);
 
-  const { name, price, description } = product;
+  const {
+    name,
+    price,
+    description
+  } = product;
 
   const handleChange = event => {
-    const { name, value, files } = event.target;
+    const {
+      name,
+      value,
+      files
+    } = event.target;
     if (name === "media") {
       setProduct(prevState => ({
         ...prevState,
@@ -70,10 +81,18 @@ function CreateProduct() {
 
       const mediaUrl = await handleImageUpload();
       const url = `${baseUrl}/api/product`;
-      const { name, price, description } = product;
-      const payload = { name, price, description, mediaUrl };
+      const {
+        name,
+        price,
+        description
+      } = product;
+      const payload = {
+        name,
+        price,
+        description,
+        mediaUrl
+      };
       const response = await axios.post(url, payload);
-      console.log({ response });
 
       setProduct(INITIAL_PRODUCT);
       setMessage(true);
@@ -86,74 +105,115 @@ function CreateProduct() {
     }
   };
 
-  return (
-    <>
-      <Header as="h3" block>
-        <Icon name="add" color="orange" />
-        Create New Product
-      </Header>
-      <Form
-        loading={loading}
-        error={Boolean(error)}
-        success={message}
-        onSubmit={handleSubmit}
-      >
-        <Message error header="Something went wrong!" content={error} />
-        <Message
-          success
-          icon="check"
-          header="Success!"
-          content="Your product has been created!"
-        />
-        <Form.Group widths="equal">
-          <Form.Field
-            control={Input}
-            name="name"
-            label="Name"
-            value={name}
-            placeholder="Name"
-            onChange={handleChange}
-          />
-          <Form.Field
-            control={Input}
-            name="price"
-            label="Price"
-            value={price}
-            placeholder="Price"
-            type="number"
-            min="0.00"
-            step="0.01"
-            onChange={handleChange}
-          />
-          <Form.Field
-            control={Input}
-            name="media"
-            label="Media"
-            content="Select Image"
-            type="file"
-            accept="image/*"
-            onChange={handleChange}
-          />
-        </Form.Group>
-        <Image src={mediaPreview} rounded centered size="medium" />
-        <Form.Field
-          control={TextArea}
-          name="description"
-          label="Description"
-          value={description}
-          placeholder="Description"
-          onChange={handleChange}
-        />
-        <Form.Field
-          control={Button}
-          disabled={disabled || loading}
-          color="blue"
-          icon="pencil alternate"
-          content="Submit"
-          type="submit"
-        />
-      </Form>
-    </>
+  return ( <
+    >
+    <
+    Header as = "h3"
+    block >
+    <
+    Icon name = "add"
+    color = "orange" / >
+    Create New Product <
+    /Header> <
+    Form loading = {
+      loading
+    }
+    error = {
+      Boolean(error)
+    }
+    success = {
+      message
+    }
+    onSubmit = {
+      handleSubmit
+    } >
+    <
+    Message error header = "Something went wrong!"
+    content = {
+      error
+    }
+    /> <
+    Message success icon = "check"
+    header = "Success!"
+    content = "Your product has been created!" /
+    >
+    <
+    Form.Group widths = "equal" >
+    <
+    Form.Field control = {
+      Input
+    }
+    name = "name"
+    label = "Name"
+    value = {
+      name
+    }
+    placeholder = "Name"
+    onChange = {
+      handleChange
+    }
+    /> <
+    Form.Field control = {
+      Input
+    }
+    name = "price"
+    label = "Price"
+    value = {
+      price
+    }
+    placeholder = "Price"
+    type = "number"
+    min = "0.00"
+    step = "0.01"
+    onChange = {
+      handleChange
+    }
+    /> <
+    Form.Field control = {
+      Input
+    }
+    name = "media"
+    label = "Media"
+    content = "Select Image"
+    type = "file"
+    accept = "image/*"
+    onChange = {
+      handleChange
+    }
+    /> <
+    /Form.Group> <
+    Image src = {
+      mediaPreview
+    }
+    rounded centered size = "medium" / >
+    <
+    Form.Field control = {
+      TextArea
+    }
+    name = "description"
+    label = "Description"
+    value = {
+      description
+    }
+    placeholder = "Description"
+    onChange = {
+      handleChange
+    }
+    /> <
+    Form.Field control = {
+      Button
+    }
+    disabled = {
+      disabled || loading
+    }
+    color = "blue"
+    icon = "pencil alternate"
+    content = "Submit"
+    type = "submit" /
+    >
+    <
+    /Form> <
+    />
   );
 }
 

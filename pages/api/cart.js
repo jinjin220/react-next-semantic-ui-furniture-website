@@ -5,7 +5,9 @@ import connectDb from "../../utils/connectDb";
 
 connectDb();
 
-const { ObjectId } = mongoose.Types;
+const {
+  ObjectId
+} = mongoose.Types;
 
 export default async (req, res) => {
   switch (req.method) {
@@ -30,11 +32,15 @@ const handleGetRequest = async (req, res) => {
   }
 
   try {
-    const { userId } = jwt.verify(
+    const {
+      userId
+    } = jwt.verify(
       req.headers.authorization,
       process.env.JWT_SECRET
     );
-    const cart = await Cart.findOne({ user: userId }).populate({
+    const cart = await Cart.findOne({
+      user: userId
+    }).populate({
       path: "products.product",
       model: "Product"
     });
@@ -46,48 +52,56 @@ const handleGetRequest = async (req, res) => {
 };
 
 const handlePutRequest = async (req, res) => {
-  const { quantity, productId } = req.body;
-  console.log("PRODUCT ID:", productId);
+  const {
+    quantity,
+    productId
+  } = req.body;
 
   if (!("authorization" in req.headers)) {
     return res.status(401).send("No authorization token");
   }
 
   try {
-    const { userId } = jwt.verify(
+    const {
+      userId
+    } = jwt.verify(
       req.headers.authorization,
       process.env.JWT_SECRET
     );
 
     // Get user cart based on userId
-    const cart = await Cart.findOne({ user: userId });
-    console.log("CART:", cart);
+    const cart = await Cart.findOne({
+      user: userId
+    });
 
     // Check if product already exists in cart
     const productExists = cart.products.some(doc =>
       ObjectId(productId).equals(doc.product)
     );
-    console.log("productExists", productExists);
 
     // If so, increment quantity by number provided to request
     if (productExists) {
-      await Cart.findOneAndUpdate(
-        {
-          _id: cart._id,
-          "products.product": productId
-        },
-        {
-          $inc: { "products.$.quantity": quantity }
+      await Cart.findOneAndUpdate({
+        _id: cart._id,
+        "products.product": productId
+      }, {
+        $inc: {
+          "products.$.quantity": quantity
         }
-      );
+      });
     } else {
       // If not, add new product with given quantity
-      const newProduct = { quantity, product: productId };
-      console.log("NEW PRODUCT:", newProduct);
-      await Cart.findOneAndUpdate(
-        { _id: cart._id },
-        { $addToSet: { products: newProduct } }
-      );
+      const newProduct = {
+        quantity,
+        product: productId
+      };
+      await Cart.findOneAndUpdate({
+        _id: cart._id
+      }, {
+        $addToSet: {
+          products: newProduct
+        }
+      });
     }
 
     res.status(200).end("Cart updated");
@@ -98,22 +112,35 @@ const handlePutRequest = async (req, res) => {
 };
 
 const handleDeleteRequest = async (req, res) => {
-  const { productId } = req.query;
+  const {
+    productId
+  } = req.query;
 
   if (!("authorization" in req.headers)) {
     return res.status(401).send("No authorization token");
   }
 
   try {
-    const { userId } = jwt.verify(
+    const {
+      userId
+    } = jwt.verify(
       req.headers.authorization,
       process.env.JWT_SECRET
     );
 
-    const cart = await Cart.findOneAndUpdate(
-      { user: userId }, // find cart according to user field from userId
-      { $pull: { products: { product: productId } } }, // pull a product from products array where product is set to 'productId'
-      { new: true } // always get the updated document
+    const cart = await Cart.findOneAndUpdate({
+        user: userId
+      }, // find cart according to user field from userId
+      {
+        $pull: {
+          products: {
+            product: productId
+          }
+        }
+      }, // pull a product from products array where product is set to 'productId'
+      {
+        new: true
+      } // always get the updated document
     ).populate({
       path: "products.product",
       model: "Product"
