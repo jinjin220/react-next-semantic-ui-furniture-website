@@ -8,15 +8,11 @@ import calculateCartTotal from "../../utils/calculateCartTotal";
 const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
 
 export default async (req, res) => {
-  const {
-    paymentData
-  } = req.body;
+  const { paymentData } = req.body;
 
   try {
     // 1) Verify and get user id from token
-    const {
-      userId
-    } = jwt.verify(
+    const { userId } = jwt.verify(
       req.headers.authorization,
       process.env.JWT_SECRET
     );
@@ -30,10 +26,7 @@ export default async (req, res) => {
     });
 
     // 3) Calculate cart totals again from cart products
-    const {
-      cartTotal,
-      stripeTotal
-    } = calculateCartTotal(cart.products);
+    const { cartTotal, stripeTotal } = calculateCartTotal(cart.products);
 
     // 4) Get email from payment data, see if email is linked with existing Stripe customer
     const previousCustomer = await stripe.customers.list({
@@ -57,15 +50,18 @@ export default async (req, res) => {
       (isExistingCustomer && previousCustomer.data[0].id) || newCustomer.id;
 
     // 6) Create charge with total, send receipt email
-    const charge = await stripe.charges.create({
-      currency: "GBP",
-      amount: stripeTotal,
-      receipt_email: paymentData.email,
-      customer,
-      description: `Checkout | ${paymentData.email} | ${paymentData.id}`
-    }, {
-      idempotency_key: uuidv4()
-    });
+    const charge = await stripe.charges.create(
+      {
+        currency: "GBP",
+        amount: stripeTotal,
+        receipt_email: paymentData.email,
+        customer,
+        description: `Checkout | ${paymentData.email} | ${paymentData.id}`
+      },
+      {
+        idempotency_key: uuidv4()
+      }
+    );
 
     // 7) Add order data to database
     await new Order({
@@ -76,13 +72,16 @@ export default async (req, res) => {
     }).save();
 
     // 8) Clear products in cart
-    await Cart.findOneAndUpdate({
-      _id: cart._id
-    }, {
-      $set: {
-        products: []
+    await Cart.findOneAndUpdate(
+      {
+        _id: cart._id
+      },
+      {
+        $set: {
+          products: []
+        }
       }
-    });
+    );
 
     // 9) Send back success (200) response
     res.status(200).send("Checkout successfull");
