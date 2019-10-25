@@ -37,7 +37,7 @@ const AccountOrders = ({ orders }) => {
             </List.Header>
             <List>
               {order.products.map(p => (
-                <List.Item>
+                <List.Item key={p.product._id}>
                   <Image size="tiny" src={p.product.mediaUrl} />
                   <List.Content>
                     <List.Header href={`/product?_id=${p.product._id}`}>
