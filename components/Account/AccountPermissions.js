@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Header, Segment, Checkbox, Table, Icon } from "semantic-ui-react";
 import axios from "axios";
 import baseUrl from "../../utils/baseUrl";
@@ -7,9 +7,7 @@ import cookie from "js-cookie";
 const AccountPermissions = () => {
   const [users, setUsers] = useState([]);
 
-  useEffect(() => {
-    getUsers();
-  }, []);
+  useEffect(() => getUsers(), []);
 
   async function getUsers() {
     const url = `${baseUrl}/api/users`;
@@ -45,17 +43,41 @@ const AccountPermissions = () => {
   );
 };
 
-const UserPermission = ({ user }) => (
-  <Table.Row>
-    <Table.Cell>
-      <Checkbox toggle />
-    </Table.Cell>
-    <Table.Cell>{user.name}</Table.Cell>
-    <Table.Cell>{user.email}</Table.Cell>
-    <Table.Cell>{user.createdAt}</Table.Cell>
-    <Table.Cell>{user.updatedAt}</Table.Cell>
-    <Table.Cell>{user.role}</Table.Cell>
-  </Table.Row>
-);
+const UserPermission = ({ user }) => {
+  const [admin, setAdmin] = useState(user.role === "admin");
+
+  const isFirstRun = useRef(true);
+
+  useEffect(() => {
+    if (isFirstRun.current) {
+      isFirstRun.current = false;
+      return;
+    }
+    updatePermission();
+  }, [admin]);
+
+  const updatePermission = async () => {
+    const url = `${baseUrl}/api/account`;
+    const payload = { _id: user._id, role: admin ? "admin" : "user" };
+    await axios.put(url, payload);
+  };
+
+  const handleChangePermissions = () => {
+    setAdmin(prevState => !prevState);
+  };
+
+  return (
+    <Table.Row>
+      <Table.Cell>
+        <Checkbox toggle checked={admin} onChange={handleChangePermissions} />
+      </Table.Cell>
+      <Table.Cell>{user.name}</Table.Cell>
+      <Table.Cell>{user.email}</Table.Cell>
+      <Table.Cell>{user.createdAt}</Table.Cell>
+      <Table.Cell>{user.updatedAt}</Table.Cell>
+      <Table.Cell>{admin ? "admin" : "user"}</Table.Cell>
+    </Table.Row>
+  );
+};
 
 export default AccountPermissions;
