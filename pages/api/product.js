@@ -59,7 +59,7 @@ const handleDeleteRequest = async (req, res) => {
     // 2) Remove product from all carts, referenced as 'product'
     await Cart.updateMany(
       { "products.product": _id },
-      { $pull: { products: _id } }
+      { $pull: { products: { product: _id } } }
     );
     res.status(204).json({});
   } catch (error) {
